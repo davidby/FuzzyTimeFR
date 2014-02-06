@@ -59,10 +59,10 @@ static TheTime new_time;
 static bool busy_animating_in = false;
 static bool busy_animating_out = false;
 /*réglage sur 4 lignes */
-const int line1_y = 7; 
-const int line2_y = 46;
-const int line3_y = 80;
-const int line4_y = 116;
+const int line1_y = -10;
+const int line2_y = 26;
+const int line3_y = 62;
+const int line4_y = 98;
 
 
 void animationInStoppedHandler(struct Animation *animation, bool finished, void *context) {
@@ -314,12 +314,11 @@ void handle_init(void) {
 	text_layer_set_font(line4->layer[1], fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
 	text_layer_set_text_alignment(line4->layer[1], GTextAlignmentLeft);
 
-
-	topbar = text_layer_create(GRect(14, 0, 116, 15));
+	topbar = text_layer_create(GRect(0, 150, 144, 15));
 	text_layer_set_text_color(topbar,INTColor2 );
 	text_layer_set_background_color(topbar, INTColorClear);
 	text_layer_set_font(topbar, fonts_get_system_font(FONT_KEY_GOTHIC_14));
-	text_layer_set_text_alignment(topbar, GTextAlignmentCenter);
+	text_layer_set_text_alignment(topbar, GTextAlignmentRight);
 
 	minutePrecise = text_layer_create(GRect(130, 0, 14, 18));
 	text_layer_set_text_color(minutePrecise, INTColor2);
