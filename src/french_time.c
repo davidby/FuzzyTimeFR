@@ -244,22 +244,20 @@ void fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * 
   }
 }
 
-void info_lines(char* line1,struct tm * t) {
+void info_lines(char* line,struct tm * t) {
 	
-	char wday[LINE_BUFFER_SIZE];
-	char mday[LINE_BUFFER_SIZE];
-	char mon[LINE_BUFFER_SIZE];
-	strncpy(line1, "",LINE_BUFFER_SIZE -1);
-	snprintf(wday, LINE_BUFFER_SIZE, "%s", JOURS[t->tm_wday]);
-	snprintf(mday, LINE_BUFFER_SIZE, "%d", t->tm_mday);
-	snprintf(mon, LINE_BUFFER_SIZE, "%s", MOIS[t->tm_mon]);
-	strcat(line1, wday);
-	strcat(line1, " ");
-	strcat(line1, mday);
-	strcat(line1, " ");
-	strcat(line1, mon);
-
-
+  char wday[LINE_BUFFER_SIZE];
+  char mday[LINE_BUFFER_SIZE];
+  char mon[LINE_BUFFER_SIZE];
+  strcpy(line, "");
+  mini_snprintf(wday, LINE_BUFFER_SIZE, "%s", JOURS[t->tm_wday]);
+  mini_snprintf(mday, LINE_BUFFER_SIZE, "%s", JOUR_MOIS[t->tm_mday - 1]);
+  mini_snprintf(mon, LINE_BUFFER_SIZE, "%s", MOIS[t->tm_mon]);
+  strcat(line, wday);
+  strcat(line, " ");
+  strcat(line, mday);
+  strcat(line, " ");
+  strcat(line, mon);
 }
 
 void majMinute(char * str, struct tm * t){
