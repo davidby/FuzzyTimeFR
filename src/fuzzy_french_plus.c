@@ -204,9 +204,6 @@ void update_watch(void) {
 		if(strcmp(new_time.line3, cur_time.line3) != 0) updateLayer(line3, 3);
 		if(strcmp(new_time.line4, cur_time.line4) != 0) updateLayer(line4, 4);
 	}
-	// vibrate at o'clock from 8 to 24
-	if(t->tm_min == 0 && t->tm_sec == 0 && t->tm_hour >= 8 && t->tm_hour <= 24 ) vibes_double_pulse();
-	if(t->tm_min == 59 && t->tm_sec == 57 && t->tm_hour >= 7 && t->tm_hour <= 23 ) vibes_short_pulse();
 
 	nbLine = nbLineNew;
 }
