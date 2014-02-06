@@ -5,16 +5,92 @@ static const char* STR_H = " h.";
 static const char* STR_MOINS = "moins";
 
 static const char* const HEURES[] = {
-	"minuit","une","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","midi"};
+  "minuit",
+  "une",
+  "deux",
+  "trois",
+  "quatre",
+  "cinq",
+  "six",
+  "sept",
+  "huit",
+  "neuf",
+  "dix",
+  "onze",
+  "midi"
+};
 
 static const char* const MINS[] = {
-	"pile","cinq","dix","et quart","vingt","et demi","le quart","environ","trente"};
+  "pile",
+  "cinq",
+  "dix",
+  "et quart",
+  "vingt",
+  "et demi",
+  "le quart",
+  "..."
+};
 
 static const char* const JOURS[] = {
-	"Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"};
+  "dimanche",
+  "lundi",
+  "mardi",
+  "mercredi",
+  "jeudi",
+  "vendredi",
+  "samedi"
+};
 
 static const char* const MOIS[] = {
-	"Jan.","Fév.","Mars","Avril","Mai","Juin","Juil.","Août","Sep.","Oct.","Nov.","Déc."};
+  "jan.",
+  "fév.",
+  "mars",
+  "avril",
+  "mai",
+  "juin",
+  "juil.",
+  "août",
+  "sep.",
+  "oct.",
+  "nov.",
+  "déc."
+};
+
+static const char* const JOUR_MOIS[] = {
+  "premier",
+  "deux",
+  "trois",
+  "quatre",
+  "cinq",
+  "six",
+  "sept",
+  "huit",
+  "neuf",
+  "dix",
+  "onze",
+  "douze",
+  "treize",
+  "quatorze",
+  "quinze",
+  "seize",
+  "dix-sept",
+  "dix-huit",
+  "dix-neuf",
+  "vingt",
+  "vingt et un",
+  "vingt-deux",
+  "vingt-trois",
+  "vingt-quatre",
+  "vingt-cinq",
+  "vingt-six",
+  "vingt-sept",
+  "vingt-huit",
+  "vingt-neuf",
+  "trente",
+  "trente et un"
+};
+
+
 
 int fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * t) {
 
@@ -26,78 +102,147 @@ int fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * t
 	strncpy(line3, "",LINE_BUFFER_SIZE -1);
 	strncpy(line4, "",LINE_BUFFER_SIZE -1);	
 	
-	if (minutes >= 38) hours++;
-	if (hours >= 24) hours = 0;
-	if (hours > 12) hours -= 12;
-	
-	strcat(line1, HEURES[hours]); // on affiche l'heure
-	
-	if ((minutes >= 0 && minutes < 33) || (minutes >= 58 && minutes < 60) ) 
-	{    // on rajoute la ligne de l'heure si inferieur a 33min
-		if (hours > 0 && hours < 12) 
-		{
-			strncpy(line2, STR_HEURE,LINE_BUFFER_SIZE -1);
-			if (hours > 1) strcat(line2, "s");
-		}
-		else
-		{
-			strncpy(line1, "",LINE_BUFFER_SIZE -1);
-			strcat(line2, HEURES[hours]);
-		}
-	}
-	else if(minutes >= 33 && minutes < 58)
-	{
-		if(hours > 0 && hours < 12) strcat(line1, STR_H);
-	}
-	if (minutes >= 38 && minutes < 58) strcat(line2, STR_MOINS);
-	
-	
-	if (minutes >= 0 && minutes < 3) 
-	{
-		if (minutes == 0) strcat(line3, MINS[0]); // pile !
-	}
-	else if (minutes < 8)  strcat(line3, MINS[1]); // cinq
-	else if (minutes < 13) strcat(line3, MINS[2]); // dix
-	else if (minutes < 18) strcat(line3, MINS[3]); // et quart
-	else if (minutes < 23) strcat(line3, MINS[4]); // vingt
-	else if (minutes < 28) // vingt-cinq
-	{
-		strcat(line3, MINS[4]); 
-		strcat(line4, MINS[1]); 
-		nbLine = 4;
-	}
-	else if (minutes < 33)  strcat(line3, MINS[5]); // et demi
-	else if (minutes < 38) // trente cinq
-	{
-		strcat(line2, MINS[8]);
-		strcat(line3, MINS[1]);
-	}
-	else if (minutes < 43) strcat(line3, MINS[4]); // moins vingt
-	else if (minutes < 48) strcat(line3, MINS[6]); // moins le quart
-	else if (minutes < 53) strcat(line3, MINS[2]); // moins dix
-	else if (minutes < 58) strcat(line3, MINS[1]); // moins cinq
-	else if (minutes >= 58) strncpy(line3, MINS[7],LINE_BUFFER_SIZE -1); // presque (ici environ)
+  if (minutes >= 33) hours++;
+  if (hours >= 24) hours = 0;
+  if (hours > 12) hours -= 12;
 
-	
-	if (hours == 4){
-		nbLine = 4;
-		strncpy(line2, STR_HEURE,LINE_BUFFER_SIZE -1);
-		if (minutes >= 33 && minutes < 38) // moins vingt cinq
-		{
-			strncpy(line3, MINS[8],LINE_BUFFER_SIZE -1); // -- vingt
-			strncpy(line4, MINS[1],LINE_BUFFER_SIZE -1); // cinq
-		}
-		else if (minutes >= 38 && minutes < 58)
-		{
-			strncpy(line3, STR_MOINS,LINE_BUFFER_SIZE -1);
-			if (minutes < 43) strcat(line4, MINS[4]); // moins vingt
-			else if (minutes < 48) strncpy(line4, MINS[6],LINE_BUFFER_SIZE -1); // moins le quart
-			else if (minutes < 53) strncpy(line4, MINS[2],LINE_BUFFER_SIZE -1); // moins dix
-			else if (minutes < 58) strncpy(line4, MINS[1],LINE_BUFFER_SIZE -1); // moins cinq
-		}
-		else if (minutes >= 58) strncpy(line3, MINS[7],LINE_BUFFER_SIZE -1); // presque
-	}
-	return nbLine;
+  strcat(line1, HEURES[hours]); // l'HEURE
+
+  if (minutes >= 0 && minutes < 3) {
+    if(hours > 0 && hours < 12) {
+        strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      if (minutes == 0) strcat(line3, MINS[0]); // pile
+    }
+    else {
+      if (minutes == 0) strcat(line2, MINS[0]); // pile
+    }
+  }
+  else if (minutes < 8) {
+    if(hours > 0 && hours < 12) {
+        strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, MINS[1]); // cinq
+    }
+    else {
+      strcat(line2, MINS[1]); // cinq
+    }
+  }
+  else if (minutes < 13) {
+    if(hours > 0 && hours < 12) {
+        strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, MINS[2]); // dix
+    }
+    else {
+      strcat(line2, MINS[2]); // dix
+    }
+  }
+  else if (minutes < 18) {
+    if(hours > 0 && hours < 12) {
+        strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, MINS[3]); // et quart
+    }
+    else {
+      strcat(line2, MINS[3]); // et quart
+    }
+  }
+  else if (minutes < 23) {
+    if(hours > 0 && hours < 12) {
+        strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, MINS[4]); // vingt
+    }
+    else {
+      strcat(line2, MINS[4]); // vingt
+    }
+  }
+  else if (minutes < 28) {
+    if(hours > 0 && hours < 12) {
+      strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, MINS[4]); // vingt
+      strcat(line4, MINS[1]); // cinq
+    }
+    else {
+      strcat(line2, MINS[4]); // vingt
+      strcat(line3, MINS[1]); // cinq
+    }
+  }
+  else if (minutes < 33) {
+    if(hours > 0 && hours < 12) {
+        strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, MINS[5]); // et demi
+    }
+    else {
+      strcat(line2, MINS[5]); // et demi
+    }
+  }
+  else if (minutes < 38) {
+    if(hours > 0 && hours < 12) strcat(line1, STR_H);
+    strcat(line2, STR_MOINS); // moins
+    strcat(line3, MINS[4]); // vingt
+    strcat(line4, MINS[1]); // cinq
+  }
+  else if (minutes < 43) {
+    if(hours > 0 && hours < 12) {
+      strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, STR_MOINS);
+      strcat(line4, MINS[4]); // vingt
+    }
+    else {
+      strcat(line2, STR_MOINS);
+      strcat(line3, MINS[4]); // vingt
+    }
+  }
+  else if (minutes < 48) {
+    if(hours > 0 && hours < 12) {
+      strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, STR_MOINS);
+      strcat(line4, MINS[6]); // le quart
+    }
+    else {
+      strcat(line2, STR_MOINS);
+      strcat(line3, MINS[6]); // le quart
+    }
+  }
+  else if (minutes < 53) {
+    if(hours > 0 && hours < 12) {
+      strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, STR_MOINS);
+      strcat(line4, MINS[2]); // dix
+    }
+    else {
+      strcat(line2, STR_MOINS);
+      strcat(line3, MINS[2]); // dix
+    }
+  }
+  else if (minutes < 58) {
+    if(hours > 0 && hours < 12) {
+      strcat(line2, STR_HEURE);
+      if (hours > 1) strcat(line2, "s");
+      strcat(line3, STR_MOINS);
+      strcat(line4, MINS[1]); // cinq
+    }
+    else {
+      strcat(line2, STR_MOINS);
+      strcat(line3, MINS[1]); // cinq
+    }
+  }
+  else if (minutes >= 58) {
+    strcpy(line1, MINS[7]); // presque
+    strcat(line2, HEURES[hours]);
+    if(hours > 0 && hours < 12) {
+        strcat(line3, STR_HEURE);
+      if (hours > 1) strcat(line3, "s");
+    }
+  }
+  return 4;
 }
 
 void info_lines(char* line1,struct tm * t) {
