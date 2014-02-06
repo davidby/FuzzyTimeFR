@@ -45,9 +45,6 @@ int INTColorClear = GColorClear;
 int INTColor1 = GColorBlack;
 int INTColor2 = GColorWhite;
 
-int nbLine = 0;
-int nbLineNew = 0;
-
 TextLayer * topbar; 
 TextLayer * minutePrecise;
 TextLayer * batterie;
@@ -66,12 +63,6 @@ const int line1_y = 7;
 const int line2_y = 46;
 const int line3_y = 80;
 const int line4_y = 116;
-/*réglage sur 3 lignes */
-const int line1_y3 = 18; 
-const int line2_y3 = 56;
-const int line3_y3 = 94;
-const int line4_y3 = 200;
-
 
 
 void animationInStoppedHandler(struct Animation *animation, bool finished, void *context) {
@@ -83,7 +74,7 @@ void animationOutStoppedHandler(struct Animation *animation, bool finished, void
 	// reset out layer to x=144
 	TextLayer * outside = (TextLayer *)context;
 	GRect rect = layer_get_frame( (Layer *) outside);
-	if (rect.origin.y == line2_y || rect.origin.y == line2_y3 ) rect.origin.x = -144;
+	if (rect.origin.y == line2_y) rect.origin.x = -144;
 	else rect.origin.x = 144;
 	layer_set_frame((Layer *) outside, rect);
 
@@ -153,31 +144,6 @@ void update_NBlayer(int nbLayer){
 	updateLayer(line4, 4);
 }
 
-
-void update_TextLayerPosition(int nbLineNew){
-		if(nbLineNew == 3){
-			layer_set_frame((Layer *) line1->layer[0],GRect(0, line1_y3, 144, 50));
-			layer_set_frame((Layer *) line2->layer[0],GRect(0, line2_y3, 144, 50));
-			layer_set_frame((Layer *) line3->layer[0],GRect(0, line3_y3, 144, 50));
-			layer_set_frame((Layer *) line4->layer[0],GRect(0, line4_y3, 144, 50));
-			layer_set_frame((Layer *) line1->layer[1],GRect(144, line1_y3, 144, 50));
-			layer_set_frame((Layer *) line2->layer[1],GRect(-144,line2_y3, 144, 50));
-			layer_set_frame((Layer *) line3->layer[1],GRect(144, line3_y3, 144, 50));
-			layer_set_frame((Layer *) line4->layer[1],GRect(144, line4_y3, 144, 50));
-		}
-		
-		else{
-			layer_set_frame((Layer *) line1->layer[0],GRect(0, line1_y, 144, 50));
-			layer_set_frame((Layer *) line2->layer[0],GRect(0, line2_y, 144, 50));
-			layer_set_frame((Layer *) line3->layer[0],GRect(0, line3_y, 144, 50));
-			layer_set_frame((Layer *) line4->layer[0],GRect(0, line4_y, 144, 50));
-			layer_set_frame((Layer *) line1->layer[1],GRect(144, line1_y, 144, 50));
-			layer_set_frame((Layer *) line2->layer[1],GRect(-144,line2_y, 144, 50));
-			layer_set_frame((Layer *) line3->layer[1],GRect(144, line3_y, 144, 50));
-			layer_set_frame((Layer *) line4->layer[1],GRect(144, line4_y, 144, 50));	
-		}
-}
-
 void update_watch(void) {
 	time_t test = time(NULL);
     struct tm * t = localtime(&test);
@@ -190,23 +156,15 @@ void update_watch(void) {
 	if(strcmp(new_time.minutePrecise, cur_time.minutePrecise) != 0) text_layer_set_text(minutePrecise, new_time.minutePrecise);
 	
 	// Let's get the new text time
-	nbLineNew = fuzzy_time(new_time.line1, new_time.line2, new_time.line3 ,new_time.line4, t);
-	if(nbLineNew != nbLine)
-	{
-		update_TextLayerPosition(nbLineNew);
-		update_NBlayer(nbLineNew);
+	fuzzy_time(new_time.line1, new_time.line2, new_time.line3 ,new_time.line4, t);
 
-	}
-	else{
-		// update hour only if changed
-		if(strcmp(new_time.line1, cur_time.line1) != 0) updateLayer(line1, 1);
-		if(strcmp(new_time.line2, cur_time.line2) != 0) updateLayer(line2, 2);
-		if(strcmp(new_time.line3, cur_time.line3) != 0) updateLayer(line3, 3);
-		if(strcmp(new_time.line4, cur_time.line4) != 0) updateLayer(line4, 4);
-	}
-
-	nbLine = nbLineNew;
+	// update hour only if changed
+	if(strcmp(new_time.line1, cur_time.line1) != 0) updateLayer(line1, 1);
+	if(strcmp(new_time.line2, cur_time.line2) != 0) updateLayer(line2, 2);
+	if(strcmp(new_time.line3, cur_time.line3) != 0) updateLayer(line3, 3);
+	if(strcmp(new_time.line4, cur_time.line4) != 0) updateLayer(line4, 4);
 }
+
 void change_background() {
 	if(Ccouleur == 0){
 		INTColor1 = GColorBlack;

@@ -92,11 +92,11 @@ static const char* const JOUR_MOIS[] = {
 
 
 
-int fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * t) {
+void fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * t) {
 
 	int hours = t->tm_hour;
 	int minutes = t->tm_min;
-	int nbLine = 3;
+
 	strncpy(line1, "",LINE_BUFFER_SIZE -1);
 	strncpy(line2, "",LINE_BUFFER_SIZE -1);
 	strncpy(line3, "",LINE_BUFFER_SIZE -1);
@@ -242,7 +242,6 @@ int fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * t
       if (hours > 1) strcat(line3, "s");
     }
   }
-  return 4;
 }
 
 void info_lines(char* line1,struct tm * t) {
