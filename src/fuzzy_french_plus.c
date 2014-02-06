@@ -320,13 +320,13 @@ void handle_init(void) {
 	text_layer_set_font(topbar, fonts_get_system_font(FONT_KEY_GOTHIC_14));
 	text_layer_set_text_alignment(topbar, GTextAlignmentRight);
 
-	minutePrecise = text_layer_create(GRect(130, 0, 14, 18));
+	minutePrecise = text_layer_create(GRect(0, 148, 14, 18));
 	text_layer_set_text_color(minutePrecise, INTColor2);
 	text_layer_set_background_color(minutePrecise, INTColorClear);
 	text_layer_set_font(minutePrecise, fonts_get_system_font(FONT_KEY_GOTHIC_14));
 	text_layer_set_text_alignment(minutePrecise, GTextAlignmentRight);
 	
-	batterie = text_layer_create(GRect(0, 0, 50, 18));
+	batterie = text_layer_create(GRect(20, 148, 50, 18));
 	text_layer_set_text_color(batterie, INTColor2);
 	text_layer_set_background_color(batterie, INTColorClear);
 	text_layer_set_font(batterie, fonts_get_system_font(FONT_KEY_GOTHIC_14));
