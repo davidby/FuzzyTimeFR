@@ -23,7 +23,7 @@ typedef struct { /* Contient les chaines de caractères de chacun des layers*/
 	char line2[LINE_BUFFER_SIZE];
 	char line3[LINE_BUFFER_SIZE];
 	char line4[LINE_BUFFER_SIZE];
-	char topbar[20];
+	char topbar[30];
 	char minutePrecise[3];
 
 } TheTime;
@@ -314,7 +314,7 @@ void handle_init(void) {
 	text_layer_set_font(line4->layer[1], fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
 	text_layer_set_text_alignment(line4->layer[1], GTextAlignmentLeft);
 
-	topbar = text_layer_create(GRect(0, 150, 144, 15));
+	topbar = text_layer_create(GRect(0, 152, 144, 15));
 	text_layer_set_text_color(topbar,INTColor2 );
 	text_layer_set_background_color(topbar, INTColorClear);
 	text_layer_set_font(topbar, fonts_get_system_font(FONT_KEY_GOTHIC_14));

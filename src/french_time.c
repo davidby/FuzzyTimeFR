@@ -246,13 +246,13 @@ void fuzzy_time(char* line1, char* line2, char* line3, char* line4, struct tm * 
 
 void info_lines(char* line,struct tm * t) {
 	
-  char wday[LINE_BUFFER_SIZE];
-  char mday[LINE_BUFFER_SIZE];
-  char mon[LINE_BUFFER_SIZE];
+  char wday[10];
+  char mday[15];
+  char mon[10];
   strcpy(line, "");
-  mini_snprintf(wday, LINE_BUFFER_SIZE, "%s", JOURS[t->tm_wday]);
-  mini_snprintf(mday, LINE_BUFFER_SIZE, "%s", JOUR_MOIS[t->tm_mday - 1]);
-  mini_snprintf(mon, LINE_BUFFER_SIZE, "%s", MOIS[t->tm_mon]);
+  mini_snprintf(wday, 10, "%s", JOURS[t->tm_wday]);
+  mini_snprintf(mday, 15, "%s", JOUR_MOIS[t->tm_mday - 1]);
+  mini_snprintf(mon, 10, "%s", MOIS[t->tm_mon]);
   strcat(line, wday);
   strcat(line, " ");
   strcat(line, mday);
