@@ -74,7 +74,7 @@ void animationOutStoppedHandler(struct Animation *animation, bool finished, void
 	// reset out layer to x=144
 	TextLayer * outside = (TextLayer *)context;
 	GRect rect = layer_get_frame( (Layer *) outside);
-	if (rect.origin.y == line2_y) rect.origin.x = -144;
+	if (rect.origin.y == line2_y || rect.origin.y == line4_y) rect.origin.x = -144;
 	else rect.origin.x = 144;
 	layer_set_frame((Layer *) outside, rect);
 
@@ -91,7 +91,7 @@ void updateLayer(TextLine * animating_line, int line) {
 	GRect in_rect = layer_get_frame((Layer *) outside);
 	GRect out_rect = layer_get_frame((Layer *) inside);
 
-	if (line == 2){
+	if (line == 2 || line == 4){
 		in_rect.origin.x += 144;
 		out_rect.origin.x += 144;
 	} else {
@@ -308,7 +308,7 @@ void handle_init(void) {
 	text_layer_set_font(line4->layer[0], fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
 	text_layer_set_text_alignment(line4->layer[0], GTextAlignmentLeft);
 
-	line4->layer[1] = text_layer_create(GRect(144, line4_y, 144, 50));
+	line4->layer[1] = text_layer_create(GRect(-144, line4_y, 144, 50));
 	text_layer_set_text_color(line4->layer[1], INTColor2);
 	text_layer_set_background_color(line4->layer[1], INTColorClear);
 	text_layer_set_font(line4->layer[1], fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
